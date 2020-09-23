@@ -7,7 +7,7 @@ export const dbOptions = {
   username: "root",
   password: "password",
   database: "productos",
-  entities: ["lib/entities/**/*.ts"],
-  logging: true,
+  entities: ["src/entities/**/*.ts"],
+  logging: false,
   synchronize: false,
 } as ConnectionOptions;
