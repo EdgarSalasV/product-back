@@ -1,8 +1,15 @@
 import { Request, Response } from "express";
 import { Producto } from "../../entities/Producto";
 
-function getProducts(req: Request, res: Response) {
-  res.send({ code: 200, message: "pos todo bien", data: [] });
+async function getProducts(req: Request, res: Response) {
+  let productoList: Producto[];
+  try {
+    productoList = await Producto.getRepository()
+      .createQueryBuilder()
+      .select("id, codigo, sku, descripcion, created_at, updated_at")
+      .getRawMany();
+  } catch (error) {}
+  res.send({ code: 200, message: "pos todo bien", data: productoList });
 }
 
 async function getProductById(req: Request, res: Response) {
@@ -11,12 +18,12 @@ async function getProductById(req: Request, res: Response) {
   let producto: Producto;
   try {
     let productoQuery = Producto.getRepository().createQueryBuilder("p");
-    if (sku) productoQuery.where('p.sku = :sku', { sku });
+    if (sku) productoQuery.where("p.sku = :sku", { sku });
 
-    if (codigo) productoQuery.where('p.codigo = :codigo', { codigo });
+    if (codigo) productoQuery.where("p.codigo = :codigo", { codigo });
 
     if (sku && codigo)
-      productoQuery.where('p.codigo = :codigo OR p.sku = :sku', {
+      productoQuery.where("p.codigo = :codigo OR p.sku = :sku", {
         codigo,
         sku,
       });

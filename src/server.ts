@@ -2,6 +2,7 @@ import "reflect-metadata";
 import * as express from "express";
 import * as cors from "cors";
 import * as bodyParser from "body-parser";
+import * as path from "path";
 import { Routes } from "./routes/Routes";
 import { connectionDB } from "./constants/connectionDB";
 const PORT = Number(process.env.PORT) || 8080;
@@ -16,6 +17,10 @@ async function main() {
   if (!connection) {
     return;
   }
+  console.log('path', path.join(__dirname, "../frontend/"))
+  app.use(
+    express.static(path.join(__dirname, "../frontend"))
+  );
   app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
   app.use(bodyParser.json({ limit: "50mb" }));
 

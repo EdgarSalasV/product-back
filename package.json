@@ -11,20 +11,30 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/cors": "^2.8.7",
     "axios": "^0.20.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "gulp-cli": "^2.3.0",
     "mysql2": "^2.2.5",
     "reflect-metadata": "^0.1.13",
-    "typeorm": "^0.2.26"
+    "typeorm": "^0.2.26",
+    "typescript": "^4.0.3"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.7",
     "@types/express": "^4.17.8",
     "@types/node": "^14.11.2",
     "nodemon": "^2.0.4",
     "ts-node": "^9.0.0",
-    "tslint": "^6.1.3",
-    "typescript": "^4.0.3"
-  }
+    "tslint": "^6.1.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EdgarSalasV/product-back.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/EdgarSalasV/product-back/issues"
+  },
+  "homepage": "https://github.com/EdgarSalasV/product-back#readme"
 }
