@@ -1,3 +1,45 @@
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto;
+  margin-top: 20px;
+}
+table {
+  width: 50%;
+  border: 1px solid gray !important;
+  border-radius: 25px;
+}
+th {
+  font-size: larger;
+}
+
+th,
+td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+tr:hover {
+  background-color: #f5f5f5;
+}
+
+.tableDiv {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0px;
+}
+
+#thead th {
+  text-align: center !important;
+}
+
 #searchInput {
   box-sizing: border-box;
   background-image: url("https://www.w3schools.com/css/searchicon.png");
@@ -16,4 +58,9 @@
 #productsDetail {
   display: none;
 }
-
+.containerMain {
+  width: 90vh;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+}

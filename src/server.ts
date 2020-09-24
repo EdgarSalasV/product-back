@@ -5,7 +5,7 @@ import * as bodyParser from "body-parser";
 import * as path from "path";
 import { Routes } from "./routes/Routes";
 import { connectionDB } from "./constants/connectionDB";
-const PORT = Number(process.env.PORT) || 8080;
+const PORT = Number(process.env.PORT) || 3003;
 const URL_GENERAL = process.env.URL_GENERAL || "http:127.0.0.1:";
 
 // create and setup express app

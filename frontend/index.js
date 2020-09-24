@@ -1,14 +1,21 @@
 "use strict";
+//MAIN
+//DOCUMENT ON READY
 document.addEventListener("DOMContentLoaded", async () => {
-  console.log("¡Estamos en vivo!");
-  let productList = await getProducts();
+  console.log("¡DOM LOADED!");
+  let productList = await getFetchProducts();
   appendProductListToTable(productList);
+
+  listeninEvents();
 });
 
 //FUNCTIONS
-
-async function getProducts() {
-  const dataFetch = await fetch("http://127.0.0.1:8080/products", {
+async function getFetchProducts() {
+  const productList = await getFetchShared("productos");
+  return await productList;
+}
+async function getFetchShared(pathUrl) {
+  let resultFetch = await fetch(`http://127.0.0.1:3003/${pathUrl}`, {
     method: "GET",
     mode: "cors",
     cache: "no-cache",
@@ -18,9 +25,8 @@ async function getProducts() {
     },
     referrerPolicy: "no-referrer",
   });
-  let productList = await dataFetch.json();
-
-  return await productList.data;
+  resultFetch = await resultFetch.json();
+  return resultFetch.data;
 }
 
 function appendProductListToTable(productList) {
@@ -42,7 +48,7 @@ function appendProductListToTable(productList) {
     properties.forEach((element) => {
       let td = document.createElement("td");
       let a = document.createElement("a");
-      a.innerHTML = `<a href="#" onClick="showProductDetails()">${producto[element]}</a>`;
+      a.innerHTML = `<a href="#" id="${element}" class="a" >${producto[element]}</a>`;
       td.appendChild(a);
       tr.appendChild(td);
     });
@@ -74,7 +80,58 @@ function filterFunction() {
     }
   }
 }
-function showProductDetails() {
-  let productsDetailDiv = document.getElementById("productsDetail");
-  productsDetailDiv.style.display = "block";
+
+function listeninEvents() {
+  //#region TAG a CLASS a
+  let aList = document.getElementsByClassName("a");
+  for (const a of aList) {
+    a.addEventListener("click", async (e) => {
+      await showProductDetails(e);
+    });
+  }
+  //#endregion TAG a CLASS a
+}
+
+async function showProductDetails(e) {
+  // let productsDetailDiv = document.getElementById("productsDetail");
+  const value = e.target.textContent;
+  const productType = e.target.id;
+
+  const producto = await getFetchProductByCodigoSku(value, productType);
+
+  const viewProduct = getviewProduct(producto);
+  //  appendProductToDivDetail(viewProduct);
+
+  // productsDetailDiv.style.display = "block";
+  // productsDetailDiv.innerHTML = `<h1>${value}<h1>`;
+}
+
+async function getFetchProductByCodigoSku(id, productType) {
+  let url = `producto?${productType}=${id}`;
+  const producto = await getFetchShared(url);
+  return producto;
+}
+async function getviewProduct(producto) {
+  const { descripcion, created_at } = producto;
+  const descripcionArray = descripcion.split(".");
+
+  let h1 = document.createElement("h1");
+  let p = document.createElement("p");
+  const textContentH1 = document.createTextNode(descripcionArray[0]);
+  h1.appendChild(textContentH1);
+  // h1.innerHTML = descripcionArray[0];
+  descripcionArray.forEach((parrafo, i) => {
+    const textContentP = document.createTextNode(parrafo);
+    if (i > 0) p.appendChild(textContentP);
+  });
+
+  let productDiv = document.getElementById("productsDetail");
+
+  let newDiv = document.createElement("div");
+
+  newDiv.setAttribute("id", "productsDetail");
+  newDiv.appendChild(h1);
+  newDiv.appendChild(p);
+  document.querySelector(".containerMain").replaceChild(newDiv, productDiv);
+  newDiv.style.display = "block";
 }
