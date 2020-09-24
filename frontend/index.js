@@ -1,10 +1,11 @@
+"use strict";
 document.addEventListener("DOMContentLoaded", async () => {
   console.log("¡Estamos en vivo!");
   let productList = await getProducts();
   appendProductListToTable(productList);
-
-  
 });
+
+//FUNCTIONS
 
 async function getProducts() {
   const dataFetch = await fetch("http://127.0.0.1:8080/products", {
@@ -38,14 +39,42 @@ function appendProductListToTable(productList) {
 
   for (const producto of productList) {
     let tr = document.createElement("tr");
-    console.log("properties", properties);
     properties.forEach((element) => {
       let td = document.createElement("td");
-      let textContent = document.createTextNode(producto[element]);
-      td.appendChild(textContent);
+      let a = document.createElement("a");
+      a.innerHTML = `<a href="#" onClick="showProductDetails()">${producto[element]}</a>`;
+      td.appendChild(a);
       tr.appendChild(td);
     });
     tbody.appendChild(tr);
-    console.log("WD");
   }
+}
+
+function filterFunction() {
+  let input, filter;
+  input = document.getElementById("searchInput");
+  filter = input.value.toUpperCase();
+
+  let tbody = document.getElementById("tbody");
+  let trList = tbody.getElementsByTagName("tr");
+  let td = tbody.getElementsByTagName("td");
+
+  for (let i = 0; i < trList.length; i++) {
+    let tds = trList[i].querySelectorAll("td");
+
+    let txtValueCodigo = tds[0].textContent;
+    let txtValueSKu = tds[1].innerText;
+    const isMatching =
+      txtValueCodigo.toUpperCase().indexOf(filter) > -1 ||
+      txtValueSKu.toUpperCase().indexOf(filter) > -1;
+    if (isMatching) {
+      trList[i].style.display = "";
+    } else {
+      trList[i].style.display = "none";
+    }
+  }
+}
+function showProductDetails() {
+  let productsDetailDiv = document.getElementById("productsDetail");
+  productsDetailDiv.style.display = "block";
 }
