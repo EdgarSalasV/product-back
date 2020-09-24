@@ -12,8 +12,8 @@ npm install
 npm run start:dev
 ```
 
-### Brower Server
+### Server URL
 
 ```html
-npm run start:dev
+http:127.0.0.1:3003
 ```
